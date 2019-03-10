@@ -17,7 +17,7 @@ Ubuntu 16.04, GTX 1080Ti
 pip install -r requirements.txt
 
 数据集文件夹如下所示：
- ![数据集文件目录]https://github.com/SkyKuang/Face-anti-spoofing/blob/master/pic.png
+ ![数据集文件目录](https://github.com/SkyKuang/Face-anti-spoofing/blob/master/pic.png)
 
 代码使用了Pretrained model.所以运行代码时需要下载模型，模型地址：链接：https://pan.baidu.com/s/1rdVvDyI0ntY9VQaW_Zq7uA 提取码：beyq 将下载的模型与代码文件train.py 放在同一目录下即可。
 
