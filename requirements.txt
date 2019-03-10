@@ -1,0 +1,6 @@
+pytorch == 0.4 .1
+numpy ==1.15.2
+matplotlib == 3.0.2
+sklearn ==0.20.3
+opencv-python==3.4.3
+Pillow
