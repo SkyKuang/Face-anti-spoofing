@@ -1,8 +1,9 @@
 # Face-anti-spoofing
 ChaLearn Face Anti-spoofing Attack Detection Challenge@CVPR2019
+
 Usage:
 运行环境：
-Ubuntu 16.04, GTX 1080Ti 
+    Ubuntu 16.04, GPU:GTX 1080Ti 
 需要库：
     python == 3.6.2
     pytorch == 0.4 .1
