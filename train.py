@@ -47,7 +47,7 @@ if not os.path.exists(save_path):
 logger = Logger(f'{save_path}/log.log')
 logger.Print(args.message)
 
-train_data,train_test_data,val_data,test_data = load_cisia_surf(root=args.root,train_size=args.batch_size,test_size=args.test_size)
+train_data,val_data,test_data = load_cisia_surf(root=args.root,train_size=args.batch_size,test_size=args.test_size)
 
 model = load_model(pretrained=False,num_classes=2)
 optimizer = optim.SGD(model.parameters(), lr=0.0005, momentum=0.9,weight_decay=5e-4)
