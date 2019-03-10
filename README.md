@@ -4,17 +4,19 @@ ChaLearn Face Anti-spoofing Attack Detection Challenge@CVPR2019
 Usage:
 运行环境：
     Ubuntu 16.04, GPU:GTX 1080Ti 
+
 需要库：
-    python == 3.6.2
-    pytorch == 0.4 .1
-		numpy ==1.15.2
-		matplotlib == 3.0.2
-		sklearn ==0.20.3
-		opencv-python==3.4.3
-    Pillow
+	python == 3.6.2
+	pytorch == 0.4 .1
+	numpy ==1.15.2
+	matplotlib == 3.0.2
+	sklearn ==0.20.3
+	opencv-python==3.4.3
+	Pillow
 
 
 安装相关库文件：
+
 pip install -r requirements.txt
 
 数据集文件夹如下所示：
