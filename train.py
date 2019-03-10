@@ -40,7 +40,7 @@ parser.add_argument('--pretrained', default=True, type=bool, help='pretrained')
 
 args = parser.parse_args()
 
-save_path = args.save_path + f'FAS_M_{args.message}_{time_str}'
+save_path = args.save_path
 
 if not os.path.exists(save_path):
     os.mkdir(save_path)
@@ -110,7 +110,7 @@ def train(epochs):
             loss.backward()
             optimizer.step()
             loss_history.append(loss)
-  
+
             if itr%100 == 0:
                 message = f'|epoch:{epoch}-iter:{itr}|loss:{loss:.6f} |loss_feat:{loss_feat:.6f} |loss_anti:{loss_anti:0.6f}|'
                 logger.Print(message)
