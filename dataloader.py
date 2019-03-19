@@ -116,7 +116,8 @@ def load_cisia_surf(root='/home/kuanghuafeng/datasets/CASIA-SURF',train_size=256
     train_loader = DataLoader(dataset=train_data, batch_size=train_size,shuffle = True,num_workers=4)
     val_loader = DataLoader(dataset=val_data, batch_size=test_size,shuffle = False,num_workers=4)
     test_loader = DataLoader(dataset=test_data, batch_size=test_size,shuffle = False,num_workers=4)
-    return train_loader,val_loader,test_loader
+    argument_loader = DataLoader(dataset=val_data, batch_size=test_size,shuffle = True,num_workers=4)
+    return train_loader,val_loader,test_loader,argument_loader
     
 def load_sample_cisia_surf(root='/home/kuanghuafeng/datasets/CASIA-SURF',train_size=256,test_size=128):
     train_transforms = transforms.Compose([
