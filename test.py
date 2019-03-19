@@ -108,13 +108,13 @@ def test(epoch=0):
                     prob_depth = torch.tensor(0).cuda().float()
                 elif prob_depth > 1:
                     prob_depth = torch.tensor(1).cuda().float()
-                if prob_depth < 0.2:
+                if prob_depth < 0.15:
                     a -= 0.15
                     b += 0.15
-                if prob_live < 0.2:
+                if prob_live < 0.15:
                     a -= 0.15
                     c += 0.15
-                if (1-prob_spoof) < 0.2:
+                if (1-prob_spoof) < 0.15:
                     a -= 0.15
                     d += 0.15
 

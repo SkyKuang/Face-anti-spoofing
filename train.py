@@ -48,7 +48,7 @@ if not os.path.exists(save_path):
 logger = Logger(f'{save_path}/log.log')
 logger.Print(args.message)
 
-train_data,val_data,test_data,train_data_argument = load_cisia_surf(root=args.root,train_size=args.batch_size,test_size=args.test_size)
+train_data,val_data,test_data,train_data_trans = load_cisia_surf(root=args.root,train_size=args.batch_size,test_size=args.test_size)
 model = load_model(pretrained=False,num_classes=2)
 optimizer = optim.SGD(model.parameters(), lr=0.0005, momentum=0.9,weight_decay=5e-4)
 criterion = nn.CrossEntropyLoss() 
@@ -141,9 +141,10 @@ def train(epochs):
             val(epoch)
             plot(loss_history)
             data_loader = train_data
+            # with open(save_path+f'/val_{epoch}.txt', 'w') as f:
         else:
             plot(loss_history)
-            data_loader = train_data_argument
+            data_loader = train_data_trans
         if (epoch+1)%49 ==0:
             test(epoch)
             torch.save(model.state_dict(),save_path+f'/model_new.tar')  
@@ -208,8 +209,37 @@ def test(epoch=0):
             outputs = F.softmax(outputs,1)
             prob_outputs = F.softmax(outputs,1)[:,1]  # 预测为1的概率    
 
+            y_prob_list = []  
+            depth_mean_live = torch.tensor(21700).cuda().float()
+            depth_mean_spoof = torch.tensor(12500).cuda().float()
+            depth_var_live = torch.tensor(11500000).cuda().float()
+            depth_var_spoof = torch.tensor(16000000).cuda().float()
+            for i in range(len(img_paths[0])):
+                depth_mean = torch.mean(torch.sum(depth_img[i]))
+                x = torch.sum(depth_img[i])
+                prob_live = Gauss(x,depth_mean_live,depth_var_live)
+                prob_spoof = Gauss(x,depth_mean_spoof,depth_var_spoof)
+                prob_depth = (depth_mean-depth_mean_spoof)/(depth_mean_live-depth_mean_spoof)
+                a ,b,c,d = 0.7,0.1,0.1,0.1
+                if prob_depth < 0:
+                    prob_depth = torch.tensor(0).cuda().float()
+                elif prob_depth > 1:
+                    prob_depth = torch.tensor(1).cuda().float()
+                if prob_depth < 0.15:
+                    a -= 0.15
+                    b += 0.15
+                if prob_live < 0.15:
+                    a -= 0.15
+                    c += 0.15
+                if (1-prob_spoof) < 0.15:
+                    a -= 0.15
+                    d += 0.15
+                
+                final_prob = a*prob_outputs[i] + prob_depth*b + prob_live*c + (1-prob_spoof)*d
+                y_prob_list.append(final_prob.data.cpu().numpy())
+
             for j in range(len(img_paths[0])):
-                message = f'{img_paths[0][j]} {img_paths[1][j]} {img_paths[2][j]} {prob_outputs[j]:.8f}'
+                message = f'{img_paths[0][j]} {img_paths[1][j]} {img_paths[2][j]} {y_prob_list[j]:.8f}'
                 f.write(message)
                 f.write('\n')           
         f.close()
@@ -232,6 +262,14 @@ def plot(data):
     plt.figure()
     plt.plot([i for i in range(len(data))],data)
     plt.savefig(save_path+f'/loss.png')
+
+def Gauss(x,mean,var):
+    PI = 3.141592654
+    a = (x-mean)*(x-mean)/(2*var)
+    b = torch.exp(-a)
+    c = 10000/(torch.sqrt(var)*torch.sqrt(torch.tensor(2*PI).cuda().float()))
+    y = b*c
+    return y
 
 if __name__ == '__main__':
     print(args.train)
