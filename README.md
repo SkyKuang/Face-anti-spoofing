@@ -35,5 +35,5 @@ pip install -r requirements.txt
 CUDA_VISIBLE_DEVICES= 0 python train.py --root /home/xxxx/datasets/CASIA-SURF
 代码默认迭代50个epoch,代码运行结束后，将在同级目录生成output.txt文件,该文件为预测结果。
 
-如有问题可联系：skykuang@stu.xmu.edu.cn
+
 
