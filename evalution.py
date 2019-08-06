@@ -4,7 +4,7 @@ import time
 import argparse
 import os
 import logging
-
+from scipy import interp
 import numpy as np
 from sklearn import metrics
 import matplotlib.pyplot as plt
@@ -37,14 +37,20 @@ def add_args():
 
 def evalution(y_probs,y_labels):
     fpr, tpr, thresholds = metrics.roc_curve(y_labels, y_probs, pos_label=1)
-    score_1 = tpr[np.where(fpr>=0.01)[0][0]]
-    score_2 = tpr[np.where(fpr>=0.001)[0][0]]
-    score_3 = tpr[np.where(fpr>=0.0001)[0][0]] 
+    score_1 = interp(0.01,fpr,tpr)
+    score_2 = interp(0.001,fpr,tpr)
+    score_3 = interp(0.0001,fpr,tpr)
+    # score_1 = tpr[np.where(fpr>=0.01)[0][0]]
+    # score_2 = tpr[np.where(fpr>=0.001)[0][0]]
+    # score_3 = tpr[np.where(fpr>=0.0001)[0][0]] 
+
+    #  plt.plot(fpr, tpr, 'k--',label='Mean ROC (area = {0:.2f})'.format(1), lw=2)
+    # plt.show()
     return score_1,score_2,score_3
 
 def eval_fun(y_prob_list,y_pLabel_list,y_label_list,logger=None):
     TP,TN,FP,FN = 0,0,0,0
-
+    
     for i in range(len(y_label_list)):
         if y_pLabel_list[i] == 1 and y_label_list[i] == 1:
             TP += 1
@@ -56,19 +62,20 @@ def eval_fun(y_prob_list,y_pLabel_list,y_label_list,logger=None):
             FN += 1
         else:
             pass
-        
-    APCER = float(FP)/(TN+FP)
-    NPCER = float(FN)/(FN+TP)
-    ACER = (APCER+NPCER)/2
-    FPR = float(FP)/(FP+TN)
-    TPR = float(TP)/(TP+FN)
     
+    APCER = float(FP)/(TN+FP+0.001)
+    NPCER = float(FN)/(FN+TP+0.001)
+    ACER = (APCER+NPCER)/2
+    FPR = float(FP)/(FP+TN+0.001)
+    TPR = float(TP)/(TP+FN+0.001)
+    a = TP/(TP+FN+0.001) + TN/(TN+FP+0.001)
+    HTER = 1 - a*0.5
     y_prob_np = np.array(y_prob_list)
     y_label_np = np.array(y_label_list)
     score_1,score_2,score_3 = evalution(y_prob_np,y_label_np)
-    message = f'|TP:{TP} |TN:{TN} |FP:{FP} |FN:{FN} |APCER:{APCER:.6F} |NPCER:{NPCER:.6F} '\
+    message = f'|TP:{TP} |TN:{TN} |FP:{FP} |FN:{FN} /HTER:{HTER:.4F} |APCER:{APCER:.6F} |NPCER:{NPCER:.6F} '\
                 f'|ACER:{ACER:.6F} |FPR:{FPR:.6F} |TPR:{TPR} |FPR=e2:{score_1:.6f} |FPR=e3:{score_2:.6f} |FPR=e4:{score_3:.6f}|'
-    logger.Print(message)
+    return message,score_3
 
 if __name__ == '__main__':
     args = add_args()
