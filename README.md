@@ -31,9 +31,9 @@ pip install -r requirements.txt
 2.	pip install -r requirement.txt  #安装所需库
 3.	运行: CUDA_VISIBLE_DEVICES=0 python train.py --root datapath 
 
-复现提交结果直接运行：
-CUDA_VISIBLE_DEVICES= 0 python train.py --root /home/xxxx/datasets/CASIA-SURF
-代码默认迭代50个epoch,代码运行结束后，将在同级目录生成output.txt文件,该文件为预测结果。
+运行：
+CUDA_VISIBLE_DEVICES= 0 python train_xx.py --root /home/xxxx/datasets/CASIA-SURF
+
 
 
 
