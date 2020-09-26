@@ -1,11 +1,10 @@
 # Face-anti-spoofing
 ChaLearn Face Anti-spoofing Attack Detection Challenge@CVPR2019
 
-# Usage:
-# Environment：
+## Environment：
     Ubuntu 16.04, GPU:GTX 1080Ti 
 
-# Dependencies：
+## Dependencies：
 
 	python == 3.6.2
 	
@@ -24,7 +23,7 @@ ChaLearn Face Anti-spoofing Attack Detection Challenge@CVPR2019
 
 Install the dependencies：
 
-pip install -r requirements.txt
+	pip install -r requirements.txt
 
 The dataset folder is shown below：
 
