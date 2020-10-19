@@ -1,6 +1,6 @@
 # Face-anti-spoofing
 ChaLearn Face Anti-spoofing Attack Detection Challenge@CVPR2019
-
+Result: ![rank](https://github.com/SkyKuang/Face-anti-spoofing/blob/master/rank.png)
 ## Environment：
     Ubuntu 16.04, GPU:GTX 1080Ti 
 
