@@ -319,12 +319,12 @@ class MWB(nn.Module):
         self.convfusion = nn.Sequential(
             nn.Conv2d(cf_planes, out_plane, kernel_size=3, stride=2, padding=1,bias=False),
             nn.BatchNorm2d(out_plane),            
-            nn.ReLU(inplace=True),
+            nn.ReLU(inplace=True),  # nn.Sigmoid(inplace=True)
             # nn.Conv2d(cf_planes//2, out_plane, kernel_size=3, stride=1, padding=1,bias=False),
             # nn.BatchNorm2d(out_plane),            
             # nn.ReLU(inplace=True),
         )
-        k = 16
+        k = 16 # K=16 is better than K=1 in our paper
         self.conv = nn.Sequential(
             nn.Conv2d(in_planes, k, kernel_size=3,stride=1, padding=1,bias=False),
             nn.ReLU(inplace=True),
