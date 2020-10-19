@@ -33,3 +33,6 @@ The dataset folder is shown below：
 # Run：
 CUDA_VISIBLE_DEVICES= 0 python train_xx.py --root /home/xxxx/datasets/CASIA-SURF
 
+# Contact：
+Thank you for your interest in our work. If you have any questions, please feel free to contact me: skykuang@stu.xmu.edu.cn.
+
